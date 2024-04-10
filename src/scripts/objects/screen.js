@@ -17,7 +17,7 @@ const screen = {
                                     <div><span>🍴${repo.forks}</span>
                                     <span>⭐${repo.stargazers_count}</span>
                                     <span>👀${repo.watchers}</span>
-                                    <span>🧑🏽‍💻${repo.language === null ? 'Sem linguagem' : repo.language}</span>
+                                    <span>🧑🏽‍💻${repo.language ?? 'Sem linguagem'}</span>
                                     </div></a></li>`
         });
 
