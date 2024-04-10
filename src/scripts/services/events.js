@@ -1,4 +1,4 @@
-import { baseUrl, maxItems } from '/src/scripts/variables.js';
+import { baseUrl, maxItems } from '../variables.js';
 
 async function getEvents(userName) {
     const response = await fetch(`${baseUrl}/${userName}/events?per_page=${maxItems}`);
