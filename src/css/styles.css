@@ -142,6 +142,17 @@ main {
   color: #fff
 }
 
+ul li div {
+  margin-top: 10px;
+}
+
+ul li div span {
+  color: #FFFFFF;
+  background-color: #6A5ACD;
+  border-radius: 5px;
+  padding: 3px;
+}
+
 /* EVENTS */
 
 .container .profile-data .events h2{

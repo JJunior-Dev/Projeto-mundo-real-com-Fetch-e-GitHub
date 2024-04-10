@@ -1,28 +1,33 @@
 const screen = {
     userProfile: document.querySelector('.profile-data'),
     renderUser(user) {
-        this.userProfile.innerHTML = `<div class="info">
-                                        <img src="${user.avatarUrl}" alt="Foto do perfil do usuário"/>
-                                        <div class="data">
-                                            <h1>${user.name ?? 'Não possui nome cadastrado 😢'}</h1>
-                                            <p>${user.bio ?? 'Não possui Bio cadastrada 😢'}</p>
-                                            <span>👥 Followers: ${user.followers}</span>&nbsp
-                                            <span>🫂 Following: ${user.following}</span>
-                                        </div>
-                                    </div>`;
+        this.userProfile.innerHTML = `  <div class="info">
+                                            <img src="${user.avatarUrl}" alt="Foto do perfil do usuário"/>
+                                            <div class="data">
+                                                <h1>${user.name ?? 'Não possui nome cadastrado 😢'}</h1>
+                                                <p>${user.bio ?? 'Não possui Bio cadastrada 😢'}</p>
+                                                <span>👥 Followers: ${user.followers}</span>&nbsp
+                                                <span>🫂 Following: ${user.following}</span>
+                                            </div>
+                                        </div>`
 
         let repositoriesItems = '';
         user.repositories.forEach(repo => {
-            repositoriesItems += `<li><a href="${repo.html_url}" target="_blank">${repo.name}</a></li>`
+            repositoriesItems += `<li><a href="${repo.html_url}" target="_blank">${repo.name}
+                                    <div><span>🍴${repo.forks}</span>
+                                    <span>⭐${repo.stargazers_count}</span>
+                                    <span>👀${repo.watchers}</span>
+                                    <span>🧑🏽‍💻${repo.language === null ? 'Sem linguagem' : repo.language}</span>
+                                    </div></a></li>`
         });
 
         if (user.repositories.length > 0) {
-            this.userProfile.innerHTML += `<div class="repositories">
+            this.userProfile.innerHTML += ` <div class="repositories">
                                                 <h2>Repositórios</h2>
                                                 <ul>${repositoriesItems}</ul>
                                             </div>`
         } else {
-            this.userProfile.innerHTML += `<div class="repositories">
+            this.userProfile.innerHTML += ` <div class="repositories">
                                                 <h2>Repositórios</h2>
                                                 <p>Usuário sem repositório cadastrado!</p>
                                             </div>`
@@ -33,9 +38,11 @@ const screen = {
             if (event.type === "CreateEvent") { eventsItems += 
                 `<li>
                     <a href="https://github.com/${event.repo.name}" target="_blank">${event.repo.name}
-                    </a><span>- Nenhum commit encontrado !</span>
+                    </a><span>- Nenhum commit encontrado!</span>
                 </li>`
-            } else {
+            } else if (event.type === "WatchEvent") {
+                return;
+            } else if (event.type === "PushEvent"){
                 eventsItems += `<li>
                                     <a href="https://github.com/${event.repo.name}" target="_blank">${event.repo.name}
                                     </a><span>- ${event.payload.commits[0].message}</span>
@@ -44,16 +51,16 @@ const screen = {
         });
 
         if (user.events.length > 0) {
-            this.userProfile.innerHTML += `<div class="events">
-                                            <h2>Eventos</h2>
-                                            <ul>${eventsItems}</ul>
-                                        </div>`
+            this.userProfile.innerHTML += ` <div class="events">
+                                                <h2>Eventos</h2>
+                                                <ul>${eventsItems}</ul>
+                                            </div>`
         }
          else {
-            this.userProfile.innerHTML += `<div class="events">
-                                            <h2>Eventos</h2>
-                                            <p>Nenhum evento encontrado!</p>
-                                        </div>`
+            this.userProfile.innerHTML += ` <div class="events">
+                                                <h2>Eventos</h2>
+                                                <p>Nenhum evento encontrado!</p>
+                                            </div>`
         };
     },
 
