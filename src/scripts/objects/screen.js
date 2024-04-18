@@ -13,12 +13,16 @@ const screen = {
 
         let repositoriesItems = '';
         user.repositories.forEach(repo => {
-            repositoriesItems += `<li><a href="${repo.html_url}" target="_blank">${repo.name}
-                                    <div><span>🍴${repo.forks}</span>
-                                    <span>⭐${repo.stargazers_count}</span>
-                                    <span>👀${repo.watchers}</span>
-                                    <span>🧑🏽‍💻${repo.language ?? 'Sem linguagem'}</span>
-                                    </div></a></li>`
+            repositoriesItems += `  <li>
+                                        <a href="${repo.html_url}" target="_blank">${repo.name}
+                                            <div>
+                                                <span>🍴${repo.forks}</span>
+                                                <span>⭐${repo.stargazers_count}</span>
+                                                <span>👀${repo.watchers}</span>
+                                                <span>🧑🏽‍💻${repo.language ?? 'Sem linguagem'}</span>
+                                            </div>
+                                        </a>
+                                    </li>`
         });
 
         if (user.repositories.length > 0) {
@@ -35,17 +39,15 @@ const screen = {
 
         let eventsItems = '';
         user.events.forEach(event => {
-            if (event.type === "CreateEvent") { eventsItems += 
-                `<li>
-                    <a href="https://github.com/${event.repo.name}" target="_blank">${event.repo.name}
-                    </a><span>- Nenhum commit encontrado!</span>
-                </li>`
-            } else if (event.type === "WatchEvent") {
-                return;
-            } else if (event.type === "PushEvent"){
+            if (event.type === "PushEvent") {
                 eventsItems += `<li>
                                     <a href="https://github.com/${event.repo.name}" target="_blank">${event.repo.name}
-                                    </a><span>- ${event.payload.commits[0].message}</span>
+                                    </a><span> --&nbsp ${event.payload.commits[0].message}</span>
+                                </li>`
+            } else {
+                eventsItems += `<li>
+                                    <a href="https://github.com/${event.repo.name}" target="_blank">${event.repo.name}
+                                    </a><span> --&nbsp Criado um ${event.payload.ref_type}</span>
                                 </li>`
             };
         });
@@ -56,7 +58,7 @@ const screen = {
                                                 <ul>${eventsItems}</ul>
                                             </div>`
         }
-         else {
+        else {
             this.userProfile.innerHTML += ` <div class="events">
                                                 <h2>Eventos</h2>
                                                 <p>Nenhum evento encontrado!</p>
